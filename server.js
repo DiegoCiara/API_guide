@@ -41,7 +41,7 @@ app.post('/api/cadastro', async (req, res) => {
   }
 });
 
-app.put('/api/contatos/:id', async (req, res) => {
+app.put('/api/pages/:id', async (req, res) => {
   const contactId = req.params.id;
   const { nome, email } = req.body;
   try {
@@ -49,31 +49,31 @@ app.put('/api/contatos/:id', async (req, res) => {
       'UPDATE dados SET nome = $1, email = $2 WHERE id = $3',
       [nome, email, contactId]
     );
-    res.status(200).json({ message: 'Contato atualizado com sucesso' });
+    res.status(200).json({ message: 'page atualizado com sucesso' });
   } catch (error) {
-    console.error('Erro ao atualizar contato:', error);
-    res.status(500).json({ message: 'Erro ao atualizar contato' });
+    console.error('Erro ao atualizar page:', error);
+    res.status(500).json({ message: 'Erro ao atualizar page' });
   }
 });
 
-app.get('/api/contatos', async (req, res) => {
+app.get('/api/pages', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM dados');
     res.status(200).json(rows);
   } catch (error) {
-    console.error('Erro ao buscar contatos:', error);
+    console.error('Erro ao buscar pages:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
-app.delete('/api/contatos/:id', async (req, res) => {
+app.delete('/api/pages/:id', async (req, res) => {
   const contactId = req.params.id;
   try {
     await pool.query('DELETE FROM dados WHERE id = $1', [contactId]);
     res.status(204).send();
   } catch (error) {
-    console.error('Erro ao excluir contato:', error);
-    res.status(500).json({ message: 'Erro ao excluir contato' });
+    console.error('Erro ao excluir page:', error);
+    res.status(500).json({ message: 'Erro ao excluir page' });
   }
 });
 
@@ -82,6 +82,9 @@ app.get('/', (req, res) => {
 });
 app.get('/api/cadastro', (req, res) => {
   res.send('Cadastro is running');
+});
+app.get('/api/pages', (req, res) => {
+  res.send('Cadastrdo is running');
 });
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
